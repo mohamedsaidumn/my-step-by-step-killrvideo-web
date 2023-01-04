@@ -1,25 +1,17 @@
 var express = require("express");
-
 // Create a server for use during development
-
 var app = express();
 
 // Serve up static build assets
-
-app.use("/out", express.static(__dirname + "/out"));
+app.use("/static", express.static(__dirname + "/out"));
 
 // All other requests serve up the index.html page
-
 app.get("/*", function (req, res) {
   res.sendFile(__dirname + "/server.html");
 });
-
 // Start the server
-
 var server = app.listen(process.env.PORT || 3000, function () {
   var host = server.address().address;
-
   var port = server.address().port;
-
   console.log("Listening at http://%s:%s", host, port);
 });

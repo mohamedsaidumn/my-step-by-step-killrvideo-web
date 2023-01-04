@@ -5,20 +5,20 @@ var livereload = require("gulp-livereload");
 var del = require("del");
 var merge = require("merge-stream");
 var path = require("path");
-
 var cfg = require("./build-config");
-
 // Some constants
 var IMAGE_OUTPUT = path.join(cfg.BUILD_OUTPUT, "images");
 var IMAGE_FILES = ["./images/**/*"];
 var FONT_OUTPUT = path.join(cfg.BUILD_OUTPUT, "fonts");
-var FONT_FILES = ["./node_modules/font-awesome/fonts/*"];
+var FONT_FILES = [
+  "./node_modules/bootstrap/dist/fonts/*",
+  "./node_modules/font-awesome/fonts/*",
+];
 
 // Clean images and fonts output folders
 gulp.task("clean.assets", function () {
   return del([IMAGE_OUTPUT, FONT_OUTPUT]);
 });
-
 // Copy images and fonts to output folders
 gulp.task("assets", ["clean.assets"], function () {
   var images = gulp.src(IMAGE_FILES).pipe(gulp.dest(IMAGE_OUTPUT));
@@ -27,7 +27,6 @@ gulp.task("assets", ["clean.assets"], function () {
 
   return merge(images, fonts);
 });
-
 // Watch for new image files and add them to the build output
 gulp.task("watch.assets", function (cb) {
   watch(IMAGE_FILES, function () {
@@ -36,7 +35,6 @@ gulp.task("watch.assets", function (cb) {
     cb();
   });
 });
-
 // Sync new images to build output directory
 gulp.task("images.sync", function () {
   return gulp
